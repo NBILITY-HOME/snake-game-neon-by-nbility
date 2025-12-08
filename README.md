@@ -185,7 +185,7 @@ Les contributions sont les bienvenues! N'hésitez pas à:
 
 ## 📞 Support
 
-Pour toute question ou problème, contactez-vous : contact@nbility.fr
+Pour toute question ou problème, contactez-nous : contact@nbility.fr
 
 ---
 

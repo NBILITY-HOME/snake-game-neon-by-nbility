@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  snake-game:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: snake-2025
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - snake-network
+    labels:
+      - "com.snake2025.description=Snake 2025 - Neon Edition"
+      - "com.snake2025.version=1.0.0"
+
+networks:
+  snake-network:
+    driver: bridge

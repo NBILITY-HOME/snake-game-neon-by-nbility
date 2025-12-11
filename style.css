@@ -182,6 +182,14 @@ body::before {
   width: 600px;
 }
 
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 /* Boutons néon */
 .neon-button {
   position: relative;

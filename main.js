@@ -95,8 +95,8 @@ class SnakeApp {
       this.handleGameOver()
     }
 
-    this.game.onFoodEaten = () => {
-      this.effects.playEatEffect()
+    this.game.onFoodEaten = (x, y) => {
+      this.effects.playEatEffect(x, y)
     }
 
     // Démarrer le jeu

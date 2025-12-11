@@ -11,7 +11,7 @@ export class Effects {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
       }
     }, { once: true })
-    
+
     // Ajouter des particules au fond
     this.createBackgroundParticles()
   }
@@ -28,9 +28,9 @@ export class Effects {
       pointer-events: none;
       z-index: 0;
     `
-    
+
     document.body.appendChild(particlesContainer)
-    
+
     // Créer des particules
     for (let i = 0; i < 50; i++) {
       const particle = document.createElement('div')
@@ -46,10 +46,10 @@ export class Effects {
         animation: float ${10 + Math.random() * 20}s linear infinite;
         animation-delay: ${Math.random() * 10}s;
       `
-      
+
       particlesContainer.appendChild(particle)
     }
-    
+
     // Ajouter l'animation CSS
     const style = document.createElement('style')
     style.textContent = `
@@ -75,19 +75,19 @@ export class Effects {
 
   playSound(frequency, duration) {
     if (!this.audioContext) return
-    
+
     const oscillator = this.audioContext.createOscillator()
     const gainNode = this.audioContext.createGain()
-    
+
     oscillator.connect(gainNode)
     gainNode.connect(this.audioContext.destination)
-    
+
     oscillator.frequency.value = frequency
     oscillator.type = 'sine'
-    
+
     gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime)
     gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration)
-    
+
     oscillator.start(this.audioContext.currentTime)
     oscillator.stop(this.audioContext.currentTime + duration)
   }
@@ -95,7 +95,7 @@ export class Effects {
   playScoreEffect() {
     // Son de score
     this.playSound(800, 0.1)
-    
+
     // Effet visuel sur le score
     const scoreElement = document.getElementById('score')
     if (scoreElement) {
@@ -106,12 +106,23 @@ export class Effects {
     }
   }
 
-  playEatEffect() {
+  playEatEffect(x, y) {
     // Son de nourriture mangée
     this.playSound(600, 0.05)
     setTimeout(() => this.playSound(800, 0.05), 50)
     setTimeout(() => this.playSound(1000, 0.05), 100)
-    
+
+    // Explosion de particules
+    if (x !== undefined && y !== undefined) {
+      const canvas = document.getElementById('game-canvas')
+      if (canvas) {
+        const rect = canvas.getBoundingClientRect()
+        const screenX = rect.left + x
+        const screenY = rect.top + y
+        this.createExplosion(screenX, screenY, '#ff00ff') // Couleur magenta pour la nourriture
+      }
+    }
+
     // Flash sur le canvas
     const canvas = document.getElementById('game-canvas')
     if (canvas) {
@@ -127,7 +138,7 @@ export class Effects {
     this.playSound(300, 0.2)
     setTimeout(() => this.playSound(250, 0.2), 200)
     setTimeout(() => this.playSound(200, 0.3), 400)
-    
+
     // Effet de shake
     const gameContainer = document.querySelector('.game-container')
     if (gameContainer) {
@@ -136,7 +147,7 @@ export class Effects {
         gameContainer.style.animation = ''
       }, 500)
     }
-    
+
     // Ajouter l'animation shake
     if (!document.querySelector('#shake-animation')) {
       const style = document.createElement('style')
@@ -152,7 +163,7 @@ export class Effects {
     }
   }
 
-  createExplosion(x, y) {
+  createExplosion(x, y, color = '#00ffff') {
     const explosion = document.createElement('div')
     explosion.style.cssText = `
       position: absolute;
@@ -162,34 +173,36 @@ export class Effects {
       height: 100px;
       pointer-events: none;
       z-index: 1000;
+      transform: translate(-50%, -50%); /* Centrer l'explosion */
     `
-    
+
     // Créer des particules d'explosion
     for (let i = 0; i < 12; i++) {
       const particle = document.createElement('div')
       const angle = (i / 12) * Math.PI * 2
       const velocity = 50 + Math.random() * 50
-      
+
       particle.style.cssText = `
         position: absolute;
         left: 50%;
         top: 50%;
-        width: 4px;
-        height: 4px;
-        background: #00ffff;
-        box-shadow: 0 0 10px #00ffff;
+        width: 6px; /* Un peu plus gros */
+        height: 6px;
+        background: ${color};
+        box-shadow: 0 0 10px ${color};
+        border-radius: 50%;
         transform: translate(-50%, -50%);
         animation: explode 0.6s ease-out forwards;
       `
-      
+
       particle.style.setProperty('--dx', `${Math.cos(angle) * velocity}px`)
       particle.style.setProperty('--dy', `${Math.sin(angle) * velocity}px`)
-      
+
       explosion.appendChild(particle)
     }
-    
+
     document.body.appendChild(explosion)
-    
+
     // Ajouter l'animation
     if (!document.querySelector('#explode-animation')) {
       const style = document.createElement('style')
@@ -208,7 +221,7 @@ export class Effects {
       `
       document.head.appendChild(style)
     }
-    
+
     // Retirer après l'animation
     setTimeout(() => {
       explosion.remove()

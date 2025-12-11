@@ -1,128 +1,131 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/snake-icon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Snake 2025 - Neon Edition</title>
-  </head>
-  <body>
-    <div id="app">
-      <!-- Écran d'accueil -->
-      <div id="home-screen" class="screen active">
-        <div class="neon-container">
-          <h1 class="game-title glitch" data-text="SNAKE 2025">SNAKE 2025</h1>
-          <p class="subtitle">NEON EDITION</p>
-          
-          <div class="menu-buttons">
-            <button class="neon-button" id="play-btn">
-              <span class="button-text">JOUER</span>
-              <span class="button-glow"></span>
-            </button>
-            
-            <div class="difficulty-selector">
-              <label class="difficulty-label">DIFFICULTÉ</label>
-              <div class="difficulty-options">
-                <button class="difficulty-btn active" data-speed="150">FACILE</button>
-                <button class="difficulty-btn" data-speed="100">NORMAL</button>
-                <button class="difficulty-btn" data-speed="50">EXPERT</button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="instructions">
-            <h3>CONTRÔLES</h3>
-            <div class="control-grid">
-              <div class="control-item">
-                <span class="key">↑ ↓ ← →</span>
-                <span>Flèches directionnelles</span>
-              </div>
-              <div class="control-item">
-                <span class="key">WASD</span>
-                <span>Touches alternatives</span>
-              </div>
-              <div class="control-item">
-                <span class="key">SWIPE</span>
-                <span>Glisser sur mobile</span>
-              </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/snake-icon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Snake 2025 - Neon Edition</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- Écran d'accueil -->
+    <div id="home-screen" class="screen active">
+      <div class="neon-container">
+        <h1 class="game-title glitch" data-text="SNAKE 2025">SNAKE 2025</h1>
+        <p class="subtitle">NEON EDITION</p>
+
+        <div class="menu-buttons">
+          <button class="neon-button" id="play-btn">
+            <span class="button-text">JOUER</span>
+            <span class="button-glow"></span>
+          </button>
+
+          <div class="difficulty-selector">
+            <label class="difficulty-label">DIFFICULTÉ</label>
+            <div class="difficulty-options">
+              <button class="difficulty-btn active" data-speed="700">FACILE</button>
+              <button class="difficulty-btn" data-speed="150">NORMAL</button>
+              <button class="difficulty-btn" data-speed="75">EXPERT</button>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Écran de jeu -->
-      <div id="game-screen" class="screen">
-        <div class="game-header">
-          <div class="score-container">
-            <span class="score-label">SCORE</span>
-            <span class="score-value" id="score">0</span>
+        <div class="instructions">
+          <h3>CONTRÔLES</h3>
+          <div class="control-grid">
+            <div class="control-item">
+              <span class="key">↑ ↓ ← →</span>
+              <span>Flèches directionnelles</span>
+            </div>
+            <div class="control-item">
+              <span class="key">WASD</span>
+              <span>Touches alternatives</span>
+            </div>
+            <div class="control-item">
+              <span class="key">SWIPE</span>
+              <span>Glisser sur mobile</span>
+            </div>
           </div>
-          <div class="high-score-container">
-            <span class="score-label">RECORD</span>
-            <span class="score-value" id="high-score">0</span>
-          </div>
-          <button class="pause-btn" id="pause-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <rect x="6" y="4" width="4" height="16"/>
-              <rect x="14" y="4" width="4" height="16"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="game-container">
-          <canvas id="game-canvas"></canvas>
-          <div class="grid-overlay"></div>
-        </div>
-
-        <!-- Contrôles tactiles -->
-        <div class="touch-controls">
-          <button class="touch-btn" data-direction="up">↑</button>
-          <div class="touch-row">
-            <button class="touch-btn" data-direction="left">←</button>
-            <button class="touch-btn" data-direction="right">→</button>
-          </div>
-          <button class="touch-btn" data-direction="down">↓</button>
-        </div>
-      </div>
-
-      <!-- Écran de pause -->
-      <div id="pause-screen" class="overlay-screen">
-        <div class="overlay-content">
-          <h2 class="glitch" data-text="PAUSE">PAUSE</h2>
-          <button class="neon-button" id="resume-btn">
-            <span class="button-text">REPRENDRE</span>
-            <span class="button-glow"></span>
-          </button>
-          <button class="neon-button secondary" id="quit-btn">
-            <span class="button-text">QUITTER</span>
-            <span class="button-glow"></span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Écran game over -->
-      <div id="gameover-screen" class="overlay-screen">
-        <div class="overlay-content">
-          <h2 class="glitch" data-text="GAME OVER">GAME OVER</h2>
-          <div class="final-score">
-            <span class="score-label">SCORE FINAL</span>
-            <span class="score-value" id="final-score">0</span>
-          </div>
-          <div class="new-record" id="new-record">
-            <span class="pulse">NOUVEAU RECORD!</span>
-          </div>
-          <button class="neon-button" id="restart-btn">
-            <span class="button-text">REJOUER</span>
-            <span class="button-glow"></span>
-          </button>
-          <button class="neon-button secondary" id="home-btn">
-            <span class="button-text">MENU</span>
-            <span class="button-glow"></span>
-          </button>
         </div>
       </div>
     </div>
 
-    <script type="module" src="/main.js"></script>
-  </body>
+    <!-- Écran de jeu -->
+    <div id="game-screen" class="screen">
+      <div class="game-header">
+        <div class="score-container">
+          <span class="score-label">SCORE</span>
+          <span class="score-value" id="score">0</span>
+        </div>
+        <div class="high-score-container">
+          <span class="score-label">RECORD</span>
+          <span class="score-value" id="high-score">0</span>
+        </div>
+        <button class="pause-btn" id="pause-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16" />
+            <rect x="14" y="4" width="4" height="16" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div class="grid-overlay"></div>
+      </div>
+
+      <!-- Contrôles tactiles -->
+      <div class="touch-controls">
+        <button class="touch-btn" data-direction="up">↑</button>
+        <div class="touch-row">
+          <button class="touch-btn" data-direction="left">←</button>
+          <button class="touch-btn" data-direction="right">→</button>
+        </div>
+        <button class="touch-btn" data-direction="down">↓</button>
+      </div>
+    </div>
+
+    <!-- Écran de pause -->
+    <div id="pause-screen" class="overlay-screen">
+      <div class="overlay-content">
+        <h2 class="glitch" data-text="PAUSE">PAUSE</h2>
+        <button class="neon-button" id="resume-btn">
+          <span class="button-text">REPRENDRE</span>
+          <span class="button-glow"></span>
+        </button>
+        <button class="neon-button secondary" id="quit-btn">
+          <span class="button-text">QUITTER</span>
+          <span class="button-glow"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Écran game over -->
+    <div id="gameover-screen" class="overlay-screen">
+      <div class="overlay-content">
+        <h2 class="glitch" data-text="GAME OVER">GAME OVER</h2>
+        <div class="final-score">
+          <span class="score-label">SCORE FINAL</span>
+          <span class="score-value" id="final-score">0</span>
+        </div>
+        <div class="new-record" id="new-record">
+          <span class="pulse">NOUVEAU RECORD!</span>
+        </div>
+        <button class="neon-button" id="restart-btn">
+          <span class="button-text">REJOUER</span>
+          <span class="button-glow"></span>
+        </button>
+        <button class="neon-button secondary" id="home-btn">
+          <span class="button-text">MENU</span>
+          <span class="button-glow"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
 </html>
